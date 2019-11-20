@@ -1,0 +1,78 @@
+{
+  "name": "lite-template",
+  "displayName": "lite-template",
+  "description": "This extension templates the file folder structure, making it easy to reuse.",
+  "version": "0.0.1",
+  "publisher": "yongwoo",
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stegano/vscode-lite-template.git"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.copyTemplate"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.copyTemplate",
+        "title": "Lite-Template: Copy a template"
+      },
+      {
+        "command": "extension.copyTemplateWithRename",
+        "title": "Lite-Template: Copy a template (with rename)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.copyTemplate",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.copyTemplateWithRename",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "extension.copyTemplate",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.copyTemplateWithRename",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.40.0",
+    "eslint": "^6.6.0",
+    "glob": "^7.1.5",
+    "mocha": "^6.2.2",
+    "typescript": "^3.6.4",
+    "vscode-test": "^1.2.2"
+  },
+  "dependencies": {
+    "change-case": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "js-beautify": "^1.10.2"
+  }
+}
