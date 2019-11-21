@@ -15,41 +15,42 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.copyTemplate"
+    "onCommand:extension.createNew",
+    "onCommand:extension.createNewWithRename"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.copyTemplate",
-        "title": "Lite-Template: Copy a template"
+        "command": "extension.createNew",
+        "title": "Lite-Template: Create new"
       },
       {
-        "command": "extension.copyTemplateWithRename",
-        "title": "Lite-Template: Copy a template (with rename)"
+        "command": "extension.createNewWithRename",
+        "title": "Lite-Template: Create new (with rename)"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.copyTemplate",
+          "command": "extension.createNew",
           "group": "navigation"
         },
         {
-          "command": "extension.copyTemplateWithRename",
+          "command": "extension.createNewWithRename",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "extension.copyTemplate",
+        "command": "extension.createNew",
         "key": "ctrl+alt+t",
         "mac": "cmd+alt+t",
         "when": "editorTextFocus"
       },
       {
-        "command": "extension.copyTemplateWithRename",
+        "command": "extension.createNewWithRename",
         "key": "ctrl+shift+t",
         "mac": "cmd+shift+t",
         "when": "editorTextFocus"

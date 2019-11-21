@@ -3,7 +3,6 @@ const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs-extra");
 const changeCase = require("change-case");
-const beautify = require("js-beautify");
 
 function getWorkingPathDir(context, activeTextEditor, workspace) {
   if (context) {
@@ -47,55 +46,27 @@ async function replaceTextInFiles(filePath, templateName, replaceFileTextFn) {
 
 // Make a default configuration file
 async function makeLiteTemplateConfigJs(configFilePath) {
-  await fs.writeFile(
-    configFilePath,
-    beautify(
-      `
-    module.exports = {
-      // You can change the template path to another path
-      templatePath: "./.templates",
-      // Copy the template file and the \`replaceFileTextFn\` function is executed.
-      // When this function is executed, you can change the text in the file.
-      replaceFileTextFn: (fileText, templateName, utils) => {
-        // @see https://www.npmjs.com/package/change-case
-        const { changeCase } = utils;
-        return fileText.replace(/__\\$templateName__/gm, templateName)
-        .replace(
-          /__\\$templateNameToPascalCase__/gm,
-          changeCase.pascalCase(templateName)
-        )
-        .replace(
-          /__\\$templateNameToParamCase__/gm,
-          changeCase.paramCase(templateName)
-        );
-      }
-    }
-  `,
-      { indent_size: 2, space_in_empty_paren: true }
+  const defaultConfigFile = (
+    await fs.readFile(
+      path.resolve(__dirname, "./assets", "lite-template.config.js")
     )
-  );
+  ).toString("utf8");
+  await fs.writeFile(configFilePath, defaultConfigFile);
 }
 
-// Make a `.templates` folder at workspace and make `SampleTemplate` in `.templates` folder
-async function makeSampleTemplate(templatePath) {
+// Make a `.templates` folder in workspace and make sample templates in `.templates` folder
+async function makeSampleTemplate(templateRootPath) {
+  const defaultSampleTemplatesPath = path.resolve(
+    __dirname,
+    "./assets/.templates"
+  );
+
   // Make template path and subfolders
-  await fs.mkdirs(templatePath);
-  await fs.writeFile(
-    path.resolve(templatePath, "index.js"),
-    beautify(
-      `
-    export default function __$templateName__() {
-      console.log("Plain -> __$templateName__");
-      console.log("ParamCase -> __$templateNameToParamCase__");
-      console.log("PascalCase -> __$templateNameToPascalCase__");
-    }
-  `,
-      { indent_size: 2, space_in_empty_paren: true }
-    )
-  );
+  await fs.mkdirs(templateRootPath);
+  await fs.copy(defaultSampleTemplatesPath, templateRootPath);
 }
 
-async function copyTemplate(_context, isRenameTemplate) {
+async function createNew(_context, isRenameTemplate) {
   try {
     const workspaceRootPath = vscode.workspace.rootPath;
     const configFilePath = path.resolve(
@@ -109,13 +80,14 @@ async function copyTemplate(_context, isRenameTemplate) {
     }
 
     const config = require(configFilePath);
-    const templatePath = path.resolve(workspaceRootPath, config.templatePath);
+    const templateRootPath = path.resolve(
+      workspaceRootPath,
+      config.templateRootPath || config.templatePath // deprecated `config.templatePath`
+    );
 
-    // If not exist `config.templatePath`, make `.templates` folder and  make `LiteTemplateSample` in `.templates`
-    if (!(await fs.pathExists(templatePath))) {
-      await makeSampleTemplate(
-        path.resolve(templatePath, "lite-template-sample")
-      );
+    // If not exist `config.templateRootPath`, make `.templates` folder and make sample templates in `.templates`
+    if (!(await fs.pathExists(templateRootPath))) {
+      await makeSampleTemplate(templateRootPath);
     }
 
     const workingPathDir = getWorkingPathDir(
@@ -124,7 +96,7 @@ async function copyTemplate(_context, isRenameTemplate) {
       vscode.workspace
     );
 
-    const templatePaths = await fs.readdir(templatePath);
+    const templatePaths = await fs.readdir(templateRootPath);
 
     const templateName = await vscode.window.showQuickPick(templatePaths, {
       placeHolder: "Choose a template"
@@ -135,8 +107,8 @@ async function copyTemplate(_context, isRenameTemplate) {
       return;
     }
 
-    // Copy template to path
-    const srcPath = path.resolve(templatePath, templateName);
+    // Copy a template to path
+    const srcPath = path.resolve(templateRootPath, templateName);
 
     // Input template name from user
     const dstTemplateName = isRenameTemplate
@@ -165,13 +137,11 @@ function activate(context) {
   // Now provide the implementation of the command with  registerCommand
   // The commandId parameter must match the command field in package.json
   context.subscriptions.push(
-    vscode.commands.registerCommand("extension.copyTemplate", context =>
-      copyTemplate(context, false)
+    vscode.commands.registerCommand("extension.createNew", context =>
+      createNew(context, false)
     ),
-
-    vscode.commands.registerCommand(
-      "extension.copyTemplateWithRename",
-      context => copyTemplate(context, true)
+    vscode.commands.registerCommand("extension.createNewWithRename", context =>
+      createNew(context, true)
     )
   );
 }
