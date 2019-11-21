@@ -2,7 +2,7 @@
   "name": "lite-template",
   "displayName": "Lite Template",
   "description": "This extension templates file and folder structure, making it easy to reuse.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "yongwoo",
   "engines": {
     "vscode": "^1.40.0"
