@@ -1,7 +1,7 @@
 {
   "name": "lite-template",
-  "displayName": "lite-template",
-  "description": "This extension templates the file folder structure, making it easy to reuse.",
+  "displayName": "Lite Template",
+  "description": "This extension templates file and folder structure, making it easy to reuse.",
   "version": "0.0.1",
   "publisher": "yongwoo",
   "engines": {
@@ -23,11 +23,11 @@
     "commands": [
       {
         "command": "extension.createNew",
-        "title": "Lite-Template: Create new"
+        "title": "Lite-Template: Create New"
       },
       {
         "command": "extension.createNewWithRename",
-        "title": "Lite-Template: Create new (with rename)"
+        "title": "Lite-Template: Create New (with rename)"
       }
     ],
     "menus": {
