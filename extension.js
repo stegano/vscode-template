@@ -45,11 +45,9 @@ async function replaceTextInFiles(filePath, templateName, replaceFileTextFn) {
 }
 
 // Make a default configuration file
-async function makeLiteTemplateConfigJs(configFilePath) {
+async function makeTemplateConfigJs(configFilePath) {
   const defaultConfigFile = (
-    await fs.readFile(
-      path.resolve(__dirname, "./assets", "lite-template.config.js")
-    )
+    await fs.readFile(path.resolve(__dirname, "./assets", "template.config.js"))
   ).toString("utf8");
   await fs.writeFile(configFilePath, defaultConfigFile);
 }
@@ -71,12 +69,12 @@ async function createNew(_context, isRenameTemplate) {
     const workspaceRootPath = vscode.workspace.rootPath;
     const configFilePath = path.resolve(
       workspaceRootPath,
-      "lite-template.config.js"
+      "template.config.js"
     );
 
     // If not exist configuration file, make a default configuration file at workspace.
     if (!(await fs.pathExists(configFilePath))) {
-      await makeLiteTemplateConfigJs(configFilePath);
+      await makeTemplateConfigJs(configFilePath);
     }
 
     const config = require(configFilePath);
@@ -121,7 +119,7 @@ async function createNew(_context, isRenameTemplate) {
     const dstPath = path.resolve(workingPathDir, dstTemplateName);
     await fs.copy(srcPath, dstPath);
     replaceTextInFiles(dstPath, dstTemplateName, config.replaceFileTextFn);
-    vscode.window.showInformationMessage("Lite-Template: copied!");
+    vscode.window.showInformationMessage("Template: copied!");
   } catch (e) {
     console.error(e.stack);
     vscode.window.showErrorMessage(e.message);
