@@ -1,7 +1,7 @@
 {
-  "name": "lite-template",
-  "displayName": "Lite Template",
-  "description": "This extension templates file and folder structure, making it easy to reuse.",
+  "name": "template",
+  "displayName": "Template",
+  "description": "This extension makes file and folder structures easier to reuse by templating them.",
   "version": "0.0.2",
   "publisher": "yongwoo",
   "engines": {
@@ -9,11 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stegano/vscode-lite-template.git"
+    "url": "https://github.com/stegano/vscode-template.git"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "template",
+    "scaffolding",
+    "vue",
+    "angular",
+    "markup",
+    "folder"
+  ],
+  "icon": "icon.png",
   "activationEvents": [
     "onCommand:extension.createNew",
     "onCommand:extension.createNewWithRename"
@@ -23,11 +32,11 @@
     "commands": [
       {
         "command": "extension.createNew",
-        "title": "Lite-Template: Create New"
+        "title": "Template: Create New"
       },
       {
         "command": "extension.createNewWithRename",
-        "title": "Lite-Template: Create New (with rename)"
+        "title": "Template: Create New (with rename)"
       }
     ],
     "menus": {
