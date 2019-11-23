@@ -2,6 +2,18 @@
 
 This extension makes file and folder structures easier to reuse by templating them.
 
+## Installation
+
+Install through VS Code extensions. Search for `yongwoo.template`
+
+[Visual Studio Code Market Place: Template](https://marketplace.visualstudio.com/items?itemName=yongwoo.template)
+
+Can also be installed in VS Code: Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
+
+```
+ext install yongwoo.template
+```
+
 ## Usage
 
 When you run the command, the default configuration file and sample templates are automatically created in the current working path.
