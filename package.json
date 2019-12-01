@@ -55,13 +55,13 @@
       {
         "command": "extension.createNew",
         "key": "ctrl+alt+t",
-        "mac": "cmd+alt+t",
+        "mac": "ctrl+alt+t",
         "when": "editorTextFocus"
       },
       {
         "command": "extension.createNewWithRename",
         "key": "ctrl+shift+t",
-        "mac": "cmd+shift+t",
+        "mac": "ctrl+shift+t",
         "when": "editorTextFocus"
       }
     ]

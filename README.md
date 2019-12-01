@@ -20,13 +20,13 @@ When you run the command, the default configuration file and sample templates ar
 
 ### Palette Commands
 
-- Shorcut: (MacOS) Cmd + Shift + T, (Windows) Ctrl + Shift + T
+- Shorcut: Ctrl + Shift + T
 
 ```bash
 Template: Create New (with rename)
 ```
 
-- Shorcut: (MacOS) Cmd + Alt + T, (Windows) Ctrl + Alt + T
+- Shorcut: Ctrl + Alt + T
 
 ```bash
 Template: Create New
