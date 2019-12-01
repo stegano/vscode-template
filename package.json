@@ -67,7 +67,8 @@
     ]
   },
   "scripts": {
-    "test": "node ./test/runTest.js"
+    "package": "cp ./README.md ./assets/.templates && vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
