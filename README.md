@@ -1,53 +1,49 @@
-# Lite Template
+# Template
 
-This extension templates the file folder structure, making it easy to reuse.
+This extension makes file and folder structures easier to reuse by templating them.
 
-> On first run, the configuration file and sample template are created in the working path.
-> If you want to add template, copy to `.template` folder your templates.
+## Installation
+
+Install through VS Code extensions. Search for `yongwoo.template`
+
+[Visual Studio Code Market Place: Template](https://marketplace.visualstudio.com/items?itemName=yongwoo.template)
+
+Can also be installed in VS Code: Launch VS Code Quick Open (Ctrl+P), paste the following command, and press enter.
+
+```
+ext install yongwoo.template
+```
+
+## Usage
+
+When you run the command, the default configuration file and sample templates are automatically created in the current working path.
+
+### Palette Commands
+
+- Shorcut: Ctrl + Shift + T
 
 ```bash
-# `lite-template.config.js` file and `.templates` folder in workspace
-
-├── .templates
-│   └── lite-template-sample
-│     └── index.js
-├── lite-template.config.js
+Template: Create New (with rename)
 ```
 
-```javascript
-// lite-template.config.js
-// You can share configuration files to use in other projects.
-
-module.exports = {
-  // You can change the template path to another path
-  templatePath: "./.templates",
-  // Copy the template file and the `replaceFileTextFn` function is executed.
-  // When this function is executed, you can change the text in the file.
-  replaceFileTextFn: (fileText, templateName, utils) => {
-    // @see https://www.npmjs.com/package/change-case
-    const { changeCase } = utils;
-    return fileText
-      .replace(/__\$templateName__/gm, templateName)
-      .replace(
-        /__\$templateNameToPascalCase__/gm,
-        changeCase.pascalCase(templateName)
-      )
-      .replace(
-        /__\$templateNameToParamCase__/gm,
-        changeCase.paramCase(templateName)
-      );
-  }
-};
-```
-
-## Pallet Command
+- Shorcut: Ctrl + Alt + T
 
 ```bash
-# Shorcut: (MacOS) Cmd + Alt + T, (Windows) Ctrl + Alt + T
-Lite-Template: Copy a template
+Template: Create New
 ```
 
-```bash
-# Shorcut: (MacOS) Cmd + Shift + T, (Windows) Ctrl + Shift + T
-Lite-Template: Copy a template (with rename)
-```
+## Customization Template and Configuration
+
+The first time you run the command, it will create a `.templates` folder and a`template.conf.js` configuration file containing the default templates in your working path.
+
+### Make customization template
+
+> Regardless of the framework or file extension, you can create and reuse the desired template in advance.
+
+1. Create a template folder in `.template (default path)` and rename it (the folder name will be the template name)
+2. Create a file and folder structure in the your template folder.
+3. Running the Template command from the Palette command displays the template you just created.
+
+### Configuration Settings
+
+- See the `template.conf.js` file created in the working path.

@@ -1,57 +1,67 @@
 {
-  "name": "lite-template",
-  "displayName": "lite-template",
-  "description": "This extension templates the file folder structure, making it easy to reuse.",
-  "version": "0.0.1",
+  "name": "template",
+  "displayName": "Template",
+  "description": "This extension makes file and folder structures easier to reuse by templating them.",
+  "version": "1.0.2",
   "publisher": "yongwoo",
   "engines": {
     "vscode": "^1.40.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stegano/vscode-lite-template.git"
+    "url": "https://github.com/stegano/vscode-template.git"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "template",
+    "scaffolding",
+    "vue",
+    "angular",
+    "markup",
+    "folder"
+  ],
+  "icon": "icon.png",
   "activationEvents": [
-    "onCommand:extension.copyTemplate"
+    "onCommand:extension.createNew",
+    "onCommand:extension.createNewWithRename"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.copyTemplate",
-        "title": "Lite-Template: Copy a template"
+        "command": "extension.createNew",
+        "title": "Template: Create New"
       },
       {
-        "command": "extension.copyTemplateWithRename",
-        "title": "Lite-Template: Copy a template (with rename)"
+        "command": "extension.createNewWithRename",
+        "title": "Template: Create New (with rename)"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.copyTemplate",
+          "command": "extension.createNew",
           "group": "navigation"
         },
         {
-          "command": "extension.copyTemplateWithRename",
+          "command": "extension.createNewWithRename",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "extension.copyTemplate",
+        "command": "extension.createNew",
         "key": "ctrl+alt+t",
-        "mac": "cmd+alt+t",
+        "mac": "ctrl+alt+t",
         "when": "editorTextFocus"
       },
       {
-        "command": "extension.copyTemplateWithRename",
+        "command": "extension.createNewWithRename",
         "key": "ctrl+shift+t",
-        "mac": "cmd+shift+t",
+        "mac": "ctrl+shift+t",
         "when": "editorTextFocus"
       }
     ]
