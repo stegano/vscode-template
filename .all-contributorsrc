@@ -1,0 +1,34 @@
+{
+  "projectName": "vscode-template",
+  "projectOwner": "stegano",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "stegano",
+      "name": "JUNG YONG WOO",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11916476?v=4",
+      "profile": "https://github.com/stegano",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "keiches",
+      "name": "Brian Kim",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5355987?v=4",
+      "profile": "http://pwrwave.blogspot.com",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
