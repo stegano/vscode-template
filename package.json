@@ -2,7 +2,7 @@
   "name": "template",
   "displayName": "Template",
   "description": "This extension makes file and folder structures easier to reuse by templating them.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "yongwoo",
   "engines": {
     "vscode": "^1.40.0"
