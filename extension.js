@@ -16,7 +16,12 @@ function getWorkingPathDir(context, activeTextEditor, workspace) {
   }
 }
 
-async function replaceTextInFiles(filePath, templateName, replaceFileTextFn) {
+async function replaceTextInFiles(
+  filePath,
+  templateName,
+  replaceFileTextFn,
+  replaceFileNameFn
+) {
   try {
     const stat = await fs.stat(filePath);
     if (stat.isDirectory()) {
@@ -26,7 +31,8 @@ async function replaceTextInFiles(filePath, templateName, replaceFileTextFn) {
           replaceTextInFiles(
             path.resolve(filePath, entryFilePath),
             templateName,
-            replaceFileTextFn
+            replaceFileTextFn,
+            replaceFileNameFn
           )
         )
       );
@@ -35,8 +41,23 @@ async function replaceTextInFiles(filePath, templateName, replaceFileTextFn) {
       if (typeof replaceFileTextFn === "function") {
         await fs.writeFile(
           filePath,
-          replaceFileTextFn(fileText, templateName, { changeCase })
+          replaceFileTextFn(fileText, templateName, { changeCase, path })
         );
+
+        /**
+         * Rename file
+         * @ref https://github.com/stegano/vscode-template/issues/4
+         */
+        if (typeof replaceFileNameFn === "function") {
+          const filePathInfo = path.parse(filePath);
+          const { base: originalFilename } = filePathInfo;
+          const filename = replaceFileNameFn(originalFilename, templateName, {
+            changeCase,
+            path
+          });
+          const _filePath = path.resolve(filePathInfo.dir, filename);
+          filename && fs.renameSync(filePath, _filePath);
+        }
       }
     }
   } catch (e) {
@@ -118,7 +139,12 @@ async function createNew(_context, isRenameTemplate) {
 
     const dstPath = path.resolve(workingPathDir, dstTemplateName);
     await fs.copy(srcPath, dstPath);
-    replaceTextInFiles(dstPath, dstTemplateName, config.replaceFileTextFn);
+    replaceTextInFiles(
+      dstPath,
+      dstTemplateName,
+      config.replaceFileTextFn,
+      config.replaceFileNameFn
+    );
     vscode.window.showInformationMessage("Template: copied!");
   } catch (e) {
     console.error(e.stack);
