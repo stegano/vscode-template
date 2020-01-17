@@ -28,7 +28,17 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "arnogues",
+      "name": "Arnaud gueras",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2287663?v=4",
+      "profile": "https://github.com/arnogues",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
