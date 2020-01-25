@@ -2,7 +2,7 @@
   "name": "template",
   "displayName": "Template",
   "description": "This extension makes file and folder structures easier to reuse by templating them.",
-  "version": "1.1.0",
+  "version": "1.1.4",
   "publisher": "yongwoo",
   "engines": {
     "vscode": "^1.40.0"
@@ -27,7 +27,7 @@
     "onCommand:extension.createNew",
     "onCommand:extension.createNewWithRename"
   ],
-  "main": "./extension.js",
+  "main": "extension.js",
   "contributes": {
     "commands": [
       {
@@ -67,9 +67,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "webpack --mode production",
-    "webpack": "webpack --mode development",
-    "webpack-dev": "webpack --mode development --watch",
+    "vscode:prepublish": "vsce package",
     "test-compile": "tsc -p ./"
   },
   "devDependencies": {
@@ -82,9 +80,7 @@
     "mocha": "^6.2.2",
     "ts-loader": "^6.2.1",
     "typescript": "^3.6.4",
-    "vscode-test": "^1.2.2",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "vscode-test": "^1.2.2"
   },
   "dependencies": {
     "all-contributors-cli": "^6.11.1",
