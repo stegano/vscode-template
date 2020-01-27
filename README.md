@@ -1,7 +1,9 @@
 # Template
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This extension makes file and folder structures easier to reuse by templating them.
@@ -38,7 +40,7 @@ Template: Create New
 
 ## Customization Template and Configuration
 
-The first time you run the command, it will create a `.templates` folder and a`template.config.js` configuration file containing the default templates in your working path.
+The first time you run the command, it will create a `.templates` folder and a `template.config.js` configuration file containing the default templates in your working path.
 
 ### Make customization template
 
@@ -69,6 +71,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
