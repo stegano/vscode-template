@@ -38,7 +38,7 @@ Template: Create New
 
 ## Customization Template and Configuration
 
-The first time you run the command, it will create a `.templates` folder and a`template.conf.js` configuration file containing the default templates in your working path.
+The first time you run the command, it will create a `.templates` folder and a`template.config.js` configuration file containing the default templates in your working path.
 
 ### Make customization template
 
@@ -50,7 +50,7 @@ The first time you run the command, it will create a `.templates` folder and a`t
 
 ### Configuration Settings
 
-- See the `template.conf.js` file created in the working path.
+- See the `template.config.js` file created in the working path.
 
 ## Contributors ✨
 
