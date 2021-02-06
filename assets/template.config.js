@@ -11,21 +11,24 @@ module.exports = {
     const { changeCase } = utils;
     // You can change the text in the file
     return fileText
-      .replace(/__templateName__/gm, templateName)
+      .replace(/__templateName__/g, templateName)
       .replace(
-        /__templateNameToPascalCase__/gm,
+        /__templateNameToPascalCase__/g,
         changeCase.pascalCase(templateName)
       )
       .replace(
-        /__templateNameToParamCase__/gm,
+        /__templateNameToParamCase__/g,
         changeCase.paramCase(templateName)
       );
   },
-  replaceFileNameFn: (fileName, templateName, utils) => {
+  renameFileFn: (fileName, _templateName, utils) => {
     const { path } = utils;
-    // @see https://nodejs.org/api/path.html#path_path_parse_path
     const { base } = path.parse(fileName);
-    // You can change the file name
     return base;
+  },
+  renameSubDirectoriesFn: (directoryName, templateName, _utils) => {
+    const { changeCase } = _utils;
+    const newDirectoryName = changeCase.paramCase(templateName);
+    return directoryName.replace(/__templateName__/g, newDirectoryName);
   }
 };

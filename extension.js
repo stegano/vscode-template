@@ -20,22 +20,39 @@ async function replaceTextInFiles(
   filePath,
   templateName,
   replaceFileTextFn,
-  replaceFileNameFn
+  renameFileFn,
+  renameSubDirectoriesFn
 ) {
   try {
     const stat = await fs.stat(filePath);
     if (stat.isDirectory()) {
       const files = await fs.readdir(filePath);
       await Promise.all(
-        files.map(async entryFilePath =>
-          replaceTextInFiles(
+        files.map(async entryFilePath => {
+          return replaceTextInFiles(
             path.resolve(filePath, entryFilePath),
             templateName,
             replaceFileTextFn,
-            replaceFileNameFn
+            renameFileFn,
+            renameSubDirectoriesFn
           )
-        )
+        })
       );
+<<<<<<< HEAD
+      if (typeof renameSubDirectoriesFn === 'function') {
+        const currDirectoryName = path.basename(filePath);
+        const newDirectoryName = renameSubDirectoriesFn(currDirectoryName, templateName, {
+=======
+      if (typeof renameSubDirectroriesFn === 'function') {
+        const currDirectoryName = path.basename(filePath);
+        const newDirectoryName = renameSubDirectroriesFn(currDirectoryName, templateName, {
+>>>>>>> 4443808... fix: changes to `template.config.js` are immediately reflected in the extension
+          changeCase,
+          path
+        });
+        const newPath = path.resolve(filePath, '../', newDirectoryName);
+        fs.renameSync(filePath, newPath);
+      }
     } else {
       const fileText = (await fs.readFile(filePath)).toString("utf8");
       if (typeof replaceFileTextFn === "function") {
@@ -43,15 +60,14 @@ async function replaceTextInFiles(
           filePath,
           replaceFileTextFn(fileText, templateName, { changeCase, path })
         );
-
         /**
          * Rename file
          * @ref https://github.com/stegano/vscode-template/issues/4
          */
-        if (typeof replaceFileNameFn === "function") {
+        if (typeof renameFileFn === "function") {
           const filePathInfo = path.parse(filePath);
           const { base: originalFilename } = filePathInfo;
-          const filename = replaceFileNameFn(originalFilename, templateName, {
+          const filename = renameFileFn(originalFilename, templateName, {
             changeCase,
             path
           });
@@ -98,6 +114,10 @@ async function createNew(_context, isRenameTemplate) {
       await makeTemplateConfigJs(configFilePath);
     }
 
+    /**
+     * Clear the `template.config.js` cache from `require`
+     */
+    delete require.cache[configFilePath];
     const config = require(configFilePath);
     const templateRootPath = path.resolve(
       workspaceRootPath,
@@ -132,9 +152,9 @@ async function createNew(_context, isRenameTemplate) {
     // Input template name from user
     const dstTemplateName = isRenameTemplate
       ? await vscode.window.showInputBox({
-          prompt: "Input a template name",
-          value: templateName
-        })
+        prompt: "Input a template name",
+        value: templateName
+      })
       : templateName;
 
     const dstPath = path.resolve(workingPathDir, dstTemplateName);
@@ -143,7 +163,11 @@ async function createNew(_context, isRenameTemplate) {
       dstPath,
       dstTemplateName,
       config.replaceFileTextFn,
-      config.replaceFileNameFn
+      /**
+       * @deprecated `replaceFileNameFn` is deprecated, using `renameFileFn`
+       */
+      config.replaceFileNameFn && config.renameFileFn,
+      config.renameSubDirectoriesFn
     );
     vscode.window.showInformationMessage("Template: copied!");
   } catch (e) {
@@ -173,7 +197,7 @@ function activate(context) {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
   activate,
