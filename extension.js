@@ -38,15 +38,9 @@ async function replaceTextInFiles(
           )
         })
       );
-<<<<<<< HEAD
       if (typeof renameSubDirectoriesFn === 'function') {
         const currDirectoryName = path.basename(filePath);
         const newDirectoryName = renameSubDirectoriesFn(currDirectoryName, templateName, {
-=======
-      if (typeof renameSubDirectroriesFn === 'function') {
-        const currDirectoryName = path.basename(filePath);
-        const newDirectoryName = renameSubDirectroriesFn(currDirectoryName, templateName, {
->>>>>>> 4443808... fix: changes to `template.config.js` are immediately reflected in the extension
           changeCase,
           path
         });
