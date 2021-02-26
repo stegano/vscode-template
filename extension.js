@@ -160,7 +160,7 @@ async function createNew(_context, isRenameTemplate) {
       /**
        * @deprecated `replaceFileNameFn` is deprecated, using `renameFileFn`
        */
-      config.replaceFileNameFn && config.renameFileFn,
+      config.renameFileFn || config.replaceFileNameFn,
       config.renameSubDirectoriesFn
     );
     vscode.window.showInformationMessage("Template: copied!");
