@@ -39,6 +39,16 @@
         "bug",
         "doc"
       ]
+    },
+    {
+      "login": "Pospyrus",
+      "name": "Pospyrus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69341125?v=4",
+      "profile": "https://github.com/Pospyrus",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
