@@ -21,10 +21,10 @@ module.exports = {
         changeCase.paramCase(templateName)
       );
   },
-  renameFileFn: (fileName, _templateName, utils) => {
+  renameFileFn: (fileName, templateName, utils) => {
     const { path } = utils;
     const { base } = path.parse(fileName);
-    return base;
+    return base.replace(/__templateName__/gm, templateName);
   },
   renameSubDirectoriesFn: (directoryName, templateName, _utils) => {
     const { changeCase } = _utils;
