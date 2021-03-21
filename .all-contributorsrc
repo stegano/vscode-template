@@ -49,6 +49,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "tobiashochguertel",
+      "name": "Tobias Hochgürtel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3332669?v=4",
+      "profile": "https://tobiashochguertel.github.io/blog/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
