@@ -16,6 +16,41 @@ function getWorkingPathDir(context, activeTextEditor, workspace) {
   }
 }
 
+async function findVariablePatterns(filePath) {
+  const stat = await fs.stat(filePath);
+  const ret = [];
+  if(stat.isDirectory()) {
+    const files = await fs.readdir(filePath);
+    const results = (await Promise.all(
+      files.map(async entryFilePath => {
+        return findVariablePatterns(
+          path.resolve(filePath, entryFilePath),
+        )
+      })
+    )).reduce((ret, result) => {
+      ret.push.apply(ret, result);
+      return ret;
+    }, []);
+    ret.push.apply(ret, results)
+  } else {
+    const fileText = (await fs.readFile(filePath)).toString("utf8");
+    const matchPattern = /\$\$var_[a-zA-Z0-9]+/g;
+    const variableInFilepath = filePath.match(matchPattern);
+    variableInFilepath 
+      && variableInFilepath.forEach((variable) => {
+        const [, value] = variable.split('_');
+        ret.push(value);
+      });
+    const variablesInFileText = fileText.match(matchPattern);
+    variablesInFileText 
+      && variablesInFileText.forEach((variable) => {
+        const [, value] = variable.split('_');
+        ret.push(value);
+      });
+  }
+  return ret;
+}
+
 async function replaceTextInFiles(
   filePath,
   templateName,
@@ -152,8 +187,51 @@ async function createNew(_context, isRenameTemplate) {
       : templateName;
 
     const dstPath = path.resolve(workingPathDir, dstTemplateName);
+
+    /**
+     * Variables found in file or filename
+     * @ref https://github.com/stegano/vscode-template/issues/20
+     */
+    const variables = [...new Set(await findVariablePatterns(srcPath))];
+
+    const COMMAND_SKIP = 'Skip...';
+    const replaceValues = {};
+
+    while(variables.length > 0){
+      try {
+        /**
+         * Selected variableName
+         */
+        const selectedVariableName = await vscode.window.showQuickPick([
+          ...variables,
+          COMMAND_SKIP,
+        ], {
+          placeHolder: "To change the value of a variable, select the variable name."
+        });
+
+        if(selectedVariableName === COMMAND_SKIP) {
+          break;;
+        }
+  
+        /**
+         * Input value by user
+         */
+        const selectedVariableValue = await vscode.window.showInputBox({
+          prompt: `Input a ${selectedVariableName} value`,
+          value: ''
+        });
+
+        replaceValues[selectedVariableName] = selectedVariableValue;
+        variables.splice(variables.indexOf(selectedVariableName), 1);
+      }catch(e) {
+        break;
+      }
+    }
+
+    // Write template files to destination path
     await fs.copy(srcPath, dstPath);
-    replaceTextInFiles(
+    
+    await replaceTextInFiles(
       dstPath,
       dstTemplateName,
       config.replaceFileTextFn,
@@ -163,6 +241,28 @@ async function createNew(_context, isRenameTemplate) {
       config.renameFileFn || config.replaceFileNameFn,
       config.renameSubDirectoriesFn
     );
+
+    const replaceTextWithVariables = (target) => {
+      /**
+       * The `target` can be fileText or filename or directoryName
+       */
+      return Object
+        .keys(replaceValues)
+        .reduce((ret, name) => {
+          return ret.replace(RegExp(`\\$\\$var_${name}`, 'g'), replaceValues[name]);
+        }, target);
+    }
+    /**
+     * In order to reduce the complexity of the source code during maintenance, 
+     * the source code is separated and executed.
+     */
+    await replaceTextInFiles(
+      dstPath,
+      dstTemplateName,
+      replaceTextWithVariables,
+      replaceTextWithVariables,
+      replaceTextWithVariables
+    )
     vscode.window.showInformationMessage("Template: copied!");
   } catch (e) {
     console.error(e.stack);
@@ -188,7 +288,6 @@ function activate(context) {
   );
 }
 
-exports.activate = activate;
 
 // this method is called when your extension is deactivated
 function deactivate() { }
