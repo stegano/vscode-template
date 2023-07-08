@@ -82,7 +82,7 @@
     "vscode-test": "^1.2.2"
   },
   "dependencies": {
-    "all-contributors-cli": "^6.11.1",
+    "all-contributors-cli": "^6.26.1",
     "change-case": "^3.1.0",
     "fs-extra": "^8.1.0",
     "js-beautify": "^1.10.2"
